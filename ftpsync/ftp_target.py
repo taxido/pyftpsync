@@ -265,9 +265,11 @@ class FtpTarget(_Target):
             if entry:
                 entry_map[name] = entry
                 entry_list.append(entry)
-                
-        # raises error_perm, if command is not supported
-        self.ftp.retrlines("MLSD", _addline)
+        try:        
+            # raises error_perm, if command is not supported
+            self.ftp.retrlines("MLSD", _addline)
+        except error_perm as e:
+            pass
 
         # load stored meta data if present
         self.cur_dir_meta = DirMetadata(self)
